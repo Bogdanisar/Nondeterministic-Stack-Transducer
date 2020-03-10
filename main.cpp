@@ -6,7 +6,7 @@ using namespace std;
 #define pv(x) std::cerr<<#x<<" = "<<(x)<<"; ";std::cerr.flush()
 #define pn std::cerr<<std::endl
 
-// g++ main.cpp .\StackTransducer.cpp -o main.exe; .\main.exe
+// g++ -Wextra -Wall main.cpp .\StackTransducer.cpp -o main.exe; .\main.exe
 
 int main() {
     ifstream in;
@@ -29,6 +29,7 @@ int main() {
 
     pv(inputString);pn;
     pv(verbose);pn;
+    pn;
 
     ofstream out("data.out");
     transducer.runInput(inputString, verbose, out);

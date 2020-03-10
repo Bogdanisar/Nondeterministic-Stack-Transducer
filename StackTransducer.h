@@ -14,16 +14,23 @@ public:
         char inputChar, stackChar;
 
         friend bool operator<(TransitionCondition a, TransitionCondition b);
+        // for debugging purposes
+        friend std::ostream& operator<< (std::ostream& out, const TransitionCondition& tc);
     };
 
     struct TransitionEffect {
         int state;
         std::string stackString, outputString;
+        
+        // for debugging purposes
+        friend std::ostream& operator<< (std::ostream& out, const TransitionEffect& te);
     };
 
     struct InstantaneousDescription {
         int state;
         std::string currentInput, currentStack, currentOutput;
+
+        friend std::ostream& operator<< (std::ostream& out, const InstantaneousDescription& id);
     };
 
     class TransducerException: public std::exception {
@@ -55,13 +62,17 @@ public:
     static const char OUTPUT_LAMBDA_SYMBOL = '_';
 
 private:
-    Acceptance accept;
+    Acceptance acceptance;
     std::map< TransitionCondition, std::vector<TransitionEffect> > delta;
-    std::vector<int> finalStates;
+    std::unordered_set<int> finalStates;
 
     std::string removeSubstringsFromString(std::string, std::string);
-    void expandCurrentQueueElement(const QueueElement&, std::queue<QueueElement>&, bool, bool);
+    int expandCurrentQueueElement(const QueueElement&, std::queue<QueueElement>&, bool, bool);
 public:
     StackTransducer(std::ifstream& in);
+    bool canAcceptWithFinalState(const InstantaneousDescription& id);
+    bool canAcceptWithEmptyStack(const InstantaneousDescription& id);
+    bool canAcceptState(const InstantaneousDescription& id);
+    void writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ofstream& out);
     void runInput(const std::string& input, bool verbose, std::ofstream& out);
 };
