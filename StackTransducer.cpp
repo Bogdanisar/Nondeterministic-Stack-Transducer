@@ -38,6 +38,7 @@ std::string StackTransducer::removeSubstringsFromString(std::string str, std::st
 }
 
 
+
 StackTransducer::StackTransducer(std::istream& in) {
     using namespace std;
 
@@ -63,11 +64,8 @@ StackTransducer::StackTransducer(std::istream& in) {
     {
         int N;
         in >> N;
-        string line;
         
         while (N--) {
-            getline(in, line);
-
             TransitionCondition cond;
             string arrow;
             TransitionEffect effect;
@@ -80,14 +78,14 @@ StackTransducer::StackTransducer(std::istream& in) {
 
             this->delta[cond].push_back(effect);
             
-            // pv(cond.state);pn; /////
-            // pv(cond.inputChar);pn; /////
-            // pv(cond.stackChar);pn; /////
-            // pv(arrow);pn; /////
-            // pv(effect.state);pn; /////
-            // pv(effect.stackString);pn; /////
-            // pv(effect.outputString);pn; /////
-            // pn; /////
+            pv(cond.state);pn; /////
+            pv(cond.inputChar);pn; /////
+            pv(cond.stackChar);pn; /////
+            pv(arrow);pn; /////
+            pv(effect.state);pn; /////
+            pv(effect.stackString);pn; /////
+            pv(effect.outputString);pn; /////
+            pn; /////
         }
     }
 
@@ -98,6 +96,7 @@ StackTransducer::StackTransducer(std::istream& in) {
         while (N--) {
             int state;
             in >> state;
+            pv(state);pn;//////
             this->finalStates.insert(state);
         }
     }
