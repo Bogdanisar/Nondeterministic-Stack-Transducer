@@ -58,3 +58,30 @@ Acceptance (F/S): F
 
 Example Input: _
 ======================================== Example ========================================
+
+
+
+
+
+
+
+
+
+======================================== Example ========================================
+Acceptance (F/S): F
+3
+0 a / -> 0 / x
+0 b / -> 0 / x
+0 _ / -> 0 / x
+1
+0
+
+
+// Notes:
+// - This transducer works as a non-stack transducer
+//   and translates any input from {a,b}* into any string made of 'x's
+//   with the condition that the length of the output string is at least as big as the input string.
+
+Example Input: _
+Example Input: abab
+======================================== Example ========================================
