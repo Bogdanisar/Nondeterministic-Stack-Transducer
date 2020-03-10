@@ -1,13 +1,13 @@
-#include "StackTranslator.h"
+#include "StackTransducer.h"
 
-bool operator<(StackTranslator::TransitionCondition a, StackTranslator::TransitionCondition b) {
+bool operator<(StackTransducer::TransitionCondition a, StackTransducer::TransitionCondition b) {
     auto t1 = std::tie(a.state, a.inputChar, a.stackChar);
     auto t2 = std::tie(b.state, b.inputChar, b.stackChar);
     return t1 < t2;
 }
 
 
-std::string StackTranslator::removeSubstringsFromString(std::string str, std::string pattern) {
+std::string StackTransducer::removeSubstringsFromString(std::string str, std::string pattern) {
     using namespace std;
 
     if (pattern != "") {
@@ -20,7 +20,7 @@ std::string StackTranslator::removeSubstringsFromString(std::string str, std::st
 }
 
 
-StackTranslator::StackTranslator(std::ifstream& in) {
+StackTransducer::StackTransducer(std::ifstream& in) {
     using namespace std;
 
     // read acceptance
@@ -37,7 +37,7 @@ StackTranslator::StackTranslator(std::ifstream& in) {
             this->accept = Acceptance::EMPTY_STACK;
         }
         else {
-            throw TranslatorException("Acceptance must be F or S in the input file. Input Format: Acceptance (F/S): %c");
+            throw TransducerException("Acceptance must be F or S in the input file. Input Format: Acceptance (F/S): %c");
         }
     }
 
@@ -78,7 +78,7 @@ StackTranslator::StackTranslator(std::ifstream& in) {
     }
 }
 
-void StackTranslator::expandCurrentQueueElement(const QueueElement& currentElement, std::queue<QueueElement>& Q, bool byLambda, bool verbose) {
+void StackTransducer::expandCurrentQueueElement(const QueueElement& currentElement, std::queue<QueueElement>& Q, bool byLambda, bool verbose) {
     using namespace std;
 
     InstantaneousDescription currId = currentElement.id;
@@ -119,12 +119,12 @@ void StackTranslator::expandCurrentQueueElement(const QueueElement& currentEleme
 }
 
 
-void StackTranslator::runInput(const std::string& input, bool debug, std::ofstream& out) {
+void StackTransducer::runInput(const std::string& input, bool verbose, std::ofstream& out) {
     using namespace std;
 
 
     queue<QueueElement> Q;
-    string initialStack = string(1, StackTranslator::STACK_BASE_SYMBOL );
+    string initialStack = string(1, StackTransducer::STACK_BASE_SYMBOL );
     InstantaneousDescription id = {0, input, initialStack, ""};
     Q.push({id, {}});
 
@@ -135,7 +135,7 @@ void StackTranslator::runInput(const std::string& input, bool debug, std::ofstre
 
         // check is final
 
-        expandCurrentQueueElement(currentElement, Q, false, debug);
-        expandCurrentQueueElement(currentElement, Q, true, debug);
+        expandCurrentQueueElement(currentElement, Q, false, verbose);
+        expandCurrentQueueElement(currentElement, Q, true, verbose);
     }
 }

@@ -1,17 +1,17 @@
 #include <bits/stdc++.h>
-#include "StackTranslator.h"
+#include "StackTransducer.h"
 
 using namespace std;
 
 #define pv(x) std::cerr<<#x<<" = "<<(x)<<"; ";std::cerr.flush()
 #define pn std::cerr<<std::endl
 
-// g++ main.cpp .\StackTranslator.cpp -o main.exe; .\main.exe
+// g++ main.cpp .\StackTransducer.cpp -o main.exe; .\main.exe
 
 int main() {
     ifstream in;
-    in.open("translator.in");
-    StackTranslator translator(in);
+    in.open("transducer.in");
+    StackTransducer transducer(in);
     in.close();
 
     const char *inputFileName = "data.in";
@@ -21,17 +21,17 @@ int main() {
         return -1;
     }
 
-    int debug;
+    int verbose;
     char inputString[1000] = {};
     fscanf(fin, "Input: %s\n", inputString);
-    fscanf(fin, "Debug (0/1): %i\n", &debug);
+    fscanf(fin, "Verbose (0/1): %i\n", &verbose);
     fclose(fin);
 
     pv(inputString);pn;
-    pv(debug);pn;
+    pv(verbose);pn;
 
     ofstream out("data.out");
-    translator.runInput(inputString, debug == 1, out);
+    transducer.runInput(inputString, verbose, out);
     out.close();
 
     return 0;

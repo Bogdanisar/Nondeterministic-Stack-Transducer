@@ -3,7 +3,7 @@
 #define pv(x) std::cerr<<#x<<" = "<<(x)<<"; ";std::cerr.flush()
 #define pn std::cerr<<std::endl
 
-class StackTranslator {
+class StackTransducer {
 public:
     enum class Acceptance {
         FINAL_STATE, EMPTY_STACK
@@ -26,11 +26,11 @@ public:
         std::string currentInput, currentStack, currentOutput;
     };
 
-    class TranslatorException: public std::exception {
+    class TransducerException: public std::exception {
         const char * message;
 
         public:
-        TranslatorException(const char * message) {
+        TransducerException(const char * message) {
             this->message = message;
         }
 
@@ -40,11 +40,12 @@ public:
         }
     };
     
+    // used in the runInput() method
     struct QueueElement {
-        StackTranslator::InstantaneousDescription id;
+        StackTransducer::InstantaneousDescription id;
 
-        // will only be filled with values if we are running in debug mode;
-        std::vector< StackTranslator::InstantaneousDescription > previousStates;
+        // will only be filled with values if we are running in verbose mode;
+        std::vector< StackTransducer::InstantaneousDescription > previousStates;
     };
     
 
@@ -61,6 +62,6 @@ private:
     std::string removeSubstringsFromString(std::string, std::string);
     void expandCurrentQueueElement(const QueueElement&, std::queue<QueueElement>&, bool, bool);
 public:
-    StackTranslator(std::ifstream& in);
-    void runInput(const std::string& input, bool debug, std::ofstream& out);
+    StackTransducer(std::ifstream& in);
+    void runInput(const std::string& input, bool verbose, std::ofstream& out);
 };
