@@ -213,9 +213,11 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
     string initialStack = string(1, StackTransducer::STACK_BASE_SYMBOL);
     InstantaneousDescription id = {0, input, initialStack, ""};
     Q.push({id, {}});
+
     int numTrasitionsSoFar = 0;
     int currStatesWithNumTransitions = 1;
     int currStatesWithNextNumTransitions = 0;
+    int numResults = 0;
 
     while (Q.size()) {
         QueueElement currentElement = Q.front();
@@ -225,6 +227,7 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
         pv(currId);pn; /////
 
         if (this->canAcceptState(currId)) {
+            numResults += 1;
             this->writeResult(input, currentElement, numTrasitionsSoFar, verbose, out);
         }
 
@@ -253,5 +256,10 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
         pv(currStatesWithNextNumTransitions);pn; /////
         pn; /////
         pn; /////
+    }
+
+    if (numResults == 0) {
+        out << "The input string is not accepted by the transducer\n";
+        out.flush();
     }
 }
