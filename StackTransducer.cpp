@@ -17,9 +17,9 @@ std::ostream& operator<< (std::ostream& out, const StackTransducer::TransitionEf
 }
 
 std::ostream& operator<< (std::ostream& out, const StackTransducer::InstantaneousDescription& id) {
-    std::string input  = (id.currentInput.length() > 0)  ? id.currentInput  : std::string(1, StackTransducer::INPUT_LAMBDA_SYMBOL);
-    std::string stack  = (id.currentStack.length() > 0)  ? id.currentStack  : std::string(1, StackTransducer::STACK_LAMBDA_SYMBOL);
-    std::string output = (id.currentOutput.length() > 0) ? id.currentOutput : std::string(1, StackTransducer::OUTPUT_LAMBDA_SYMBOL);
+    std::string input  = StackTransducer::emptyStringToLambdaSymbol(id.currentInput);
+    std::string stack  = StackTransducer::emptyStringToLambdaSymbol(id.currentStack);
+    std::string output = StackTransducer::emptyStringToLambdaSymbol(id.currentOutput);
     out << "(" << id.state << ", " << input << ", " << stack << ", " << output << ")";
     return out;
 }
@@ -37,6 +37,9 @@ std::string StackTransducer::removeSubstringsFromString(std::string str, std::st
     return str;
 }
 
+std::string StackTransducer::emptyStringToLambdaSymbol(std::string str, char lambdaSymbol) {
+    return (str.length() > 0) ? str : std::string(1, lambdaSymbol);
+}
 
 
 StackTransducer::StackTransducer(std::istream& in) {
@@ -73,8 +76,8 @@ StackTransducer::StackTransducer(std::istream& in) {
             in >> arrow;
             in >> effect.state >> effect.stackString >> effect.outputString;
 
-            effect.stackString = removeSubstringsFromString(effect.stackString, string(1, STACK_LAMBDA_SYMBOL));
-            effect.outputString = removeSubstringsFromString(effect.outputString, string(1, OUTPUT_LAMBDA_SYMBOL));
+            effect.stackString = StackTransducer::removeSubstringsFromString(effect.stackString, string(1, LAMBDA_SYMBOL));
+            effect.outputString = StackTransducer::removeSubstringsFromString(effect.outputString, string(1, LAMBDA_SYMBOL));
 
             this->delta[cond].push_back(effect);
             
@@ -141,7 +144,7 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
 
     TransitionCondition tc;
     tc.state = currId.state;
-    tc.inputChar = (byLambda) ? INPUT_LAMBDA_SYMBOL : currId.currentInput[0];
+    tc.inputChar = (byLambda) ? LAMBDA_SYMBOL : currId.currentInput[0];
     tc.stackChar = currId.currentStack.back();
 
     pv(tc);pn; /////
@@ -184,11 +187,11 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
 void StackTransducer::writeResult(std::string input, QueueElement qe, int transitionsTaken, bool verbose, std::ostream& out) {
     out << "Translation with " << transitionsTaken << " transitions:\n";
 
-    input = (input.length() > 0) ? input : std::string(1, INPUT_LAMBDA_SYMBOL);
+    input = StackTransducer::emptyStringToLambdaSymbol(input);
     out << input << '\n';
 
     std::string output = qe.id.currentOutput;
-    output = (output.length() > 0) ? output : std::string(1, OUTPUT_LAMBDA_SYMBOL);
+    output = StackTransducer::emptyStringToLambdaSymbol(output);
     out << output << '\n';
 
     if (verbose) {
@@ -206,7 +209,7 @@ void StackTransducer::writeResult(std::string input, QueueElement qe, int transi
 void StackTransducer::runInput(std::string input, bool verbose, std::ostream& out) {
     using namespace std;
 
-    input = this->removeSubstringsFromString(input, string(1, INPUT_LAMBDA_SYMBOL));
+    input = StackTransducer::removeSubstringsFromString(input, string(1, LAMBDA_SYMBOL));
 
     queue<QueueElement> Q;
     string initialStack = string(1, StackTransducer::STACK_BASE_SYMBOL);

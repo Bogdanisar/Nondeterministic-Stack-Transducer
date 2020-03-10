@@ -57,16 +57,13 @@ public:
     
 
     static const char STACK_BASE_SYMBOL = '/';
-    static const char INPUT_LAMBDA_SYMBOL = '_';
-    static const char STACK_LAMBDA_SYMBOL = '_';
-    static const char OUTPUT_LAMBDA_SYMBOL = '_';
+    static const char LAMBDA_SYMBOL = '_';
 
 private:
     Acceptance acceptance;
     std::map< TransitionCondition, std::vector<TransitionEffect> > delta;
     std::unordered_set<int> finalStates;
 
-    std::string removeSubstringsFromString(std::string, std::string);
     int expandCurrentQueueElement(const QueueElement&, std::queue<QueueElement>&, bool, bool);
 public:
     StackTransducer(std::istream& in);
@@ -75,4 +72,7 @@ public:
     bool canAcceptState(const InstantaneousDescription& id);
     void writeResult(std::string input, QueueElement qe, int transitionsTaken, bool verbose, std::ostream& out);
     void runInput(std::string input, bool verbose, std::ostream& out);
+    
+    static std::string removeSubstringsFromString(std::string, std::string);
+    static std::string emptyStringToLambdaSymbol(std::string, char lambdaSymbol = StackTransducer::LAMBDA_SYMBOL);
 };
