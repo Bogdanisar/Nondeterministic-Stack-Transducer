@@ -31,7 +31,7 @@ int main() {
     pv(verbose);pn;
     pn;
 
-    ofstream out("data.out");
+    ofstream out("results.out");
     transducer.runInput(inputString, verbose, out);
     out.close();
 

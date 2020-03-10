@@ -1,0 +1,23 @@
+========================================= data.in input format =========================================
+
+Input: *input string*
+Verbose (0/1): *integer (0 or 1)*
+
+// Notes:
+// - The input string will be the alphabet word for which the transducer will produce translations.
+// - If the program is running in verbose mode, for each output translation, the steps taken will also be printed.
+
+========================================= data.in input format =========================================
+
+
+
+
+
+
+
+=============================================== Example ===============================================
+
+Input: abba
+Verbose (0/1): 0
+
+=============================================== Example ===============================================

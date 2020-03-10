@@ -1,0 +1,43 @@
+=============================== transducer.in input format ===============================
+
+Acceptance (F/S): *character (F or S)*
+
+*an integer N representing the number of transitions in the tranducer*
+*
+N lines, each representing a transition of the following form:
+    *initial state integer* *input char* *stack char* -> *next state integer* *stack string* *output string*
+*
+
+*an integer M representing the number of final states in the transducer*
+*
+M lines, each being a state integer
+*
+
+// Notes:
+// - The final states section is only relevant if the stack acceptance mode is with final states;
+// - '/' is the initial stack character;
+// - '_' is the lambda character for input, stack, output;
+
+=============================== transducer.in Input Format ===============================
+
+
+
+
+
+
+
+
+======================================== Example ========================================
+
+Acceptance (F/S): F
+2
+0 a / -> 0 / xx
+0 b / -> 0 / xx
+1
+0
+
+
+// This Transducer will take any string from {a,b}* and produce a string of 'x's,
+// which will be twice the length of the original string
+
+======================================== Example ========================================
