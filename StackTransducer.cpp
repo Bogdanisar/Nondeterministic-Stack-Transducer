@@ -38,7 +38,7 @@ std::string StackTransducer::removeSubstringsFromString(std::string str, std::st
 }
 
 
-StackTransducer::StackTransducer(std::ifstream& in) {
+StackTransducer::StackTransducer(std::istream& in) {
     using namespace std;
 
     // read acceptance
@@ -92,15 +92,13 @@ StackTransducer::StackTransducer(std::ifstream& in) {
     }
 
     // read final states
-    {
+    if (this->acceptance == Acceptance::FINAL_STATE) {
         int N;
         in >> N;
         while (N--) {
             int state;
             in >> state;
             this->finalStates.insert(state);
-
-            // pv(state);pn; /////
         }
     }
 }
@@ -130,7 +128,7 @@ bool StackTransducer::canAcceptState(const InstantaneousDescription& id) {
 }
 
 // this method performs all available one-transition steps from the current instantaneous description of the queue element
-// and pushes the new resulting instantaneous descriptions to the queue, returning the number of new states;
+// and pushes the new resulting instantaneous descriptions to the queue (as queue elements), returning the number of new states;
 int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElement, std::queue<QueueElement>& Q, bool byLambda, bool verbose) {
     using namespace std;
 
@@ -184,7 +182,7 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
 }
 
 
-void StackTransducer::writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ofstream& out) {
+void StackTransducer::writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ostream& out) {
     out << "Translation with " << transitionsTaken << " transitions:\n";
     out << input << "\n";
     out << qe.id.currentOutput << '\n';
@@ -198,9 +196,10 @@ void StackTransducer::writeResult(std::string input, const QueueElement& qe, int
     }
 
     out << '\n';
+    out.flush();
 }
 
-void StackTransducer::runInput(const std::string& input, bool verbose, std::ofstream& out) {
+void StackTransducer::runInput(const std::string& input, bool verbose, std::ostream& out) {
     using namespace std;
 
 

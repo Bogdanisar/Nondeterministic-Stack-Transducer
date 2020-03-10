@@ -21,7 +21,7 @@ public:
     struct TransitionEffect {
         int state;
         std::string stackString, outputString;
-        
+
         // for debugging purposes
         friend std::ostream& operator<< (std::ostream& out, const TransitionEffect& te);
     };
@@ -69,10 +69,10 @@ private:
     std::string removeSubstringsFromString(std::string, std::string);
     int expandCurrentQueueElement(const QueueElement&, std::queue<QueueElement>&, bool, bool);
 public:
-    StackTransducer(std::ifstream& in);
+    StackTransducer(std::istream& in);
     bool canAcceptWithFinalState(const InstantaneousDescription& id);
     bool canAcceptWithEmptyStack(const InstantaneousDescription& id);
     bool canAcceptState(const InstantaneousDescription& id);
-    void writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ofstream& out);
-    void runInput(const std::string& input, bool verbose, std::ofstream& out);
+    void writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ostream& out);
+    void runInput(const std::string& input, bool verbose, std::ostream& out);
 };
