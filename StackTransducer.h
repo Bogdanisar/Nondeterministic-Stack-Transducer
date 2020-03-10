@@ -73,6 +73,6 @@ public:
     bool canAcceptWithFinalState(const InstantaneousDescription& id);
     bool canAcceptWithEmptyStack(const InstantaneousDescription& id);
     bool canAcceptState(const InstantaneousDescription& id);
-    void writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ostream& out);
-    void runInput(const std::string& input, bool verbose, std::ostream& out);
+    void writeResult(std::string input, QueueElement qe, int transitionsTaken, bool verbose, std::ostream& out);
+    void runInput(std::string input, bool verbose, std::ostream& out);
 };

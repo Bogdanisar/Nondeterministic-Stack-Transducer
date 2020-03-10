@@ -182,10 +182,15 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
 }
 
 
-void StackTransducer::writeResult(std::string input, const QueueElement& qe, int transitionsTaken, bool verbose, std::ostream& out) {
+void StackTransducer::writeResult(std::string input, QueueElement qe, int transitionsTaken, bool verbose, std::ostream& out) {
     out << "Translation with " << transitionsTaken << " transitions:\n";
-    out << input << "\n";
-    out << qe.id.currentOutput << '\n';
+
+    input = (input.length() > 0) ? input : std::string(1, INPUT_LAMBDA_SYMBOL);
+    out << input << '\n';
+
+    std::string output = qe.id.currentOutput;
+    output = (output.length() > 0) ? output : std::string(1, OUTPUT_LAMBDA_SYMBOL);
+    out << output << '\n';
 
     if (verbose) {
         out << "Instantaneous Descriptions:\n";
@@ -199,9 +204,10 @@ void StackTransducer::writeResult(std::string input, const QueueElement& qe, int
     out.flush();
 }
 
-void StackTransducer::runInput(const std::string& input, bool verbose, std::ostream& out) {
+void StackTransducer::runInput(std::string input, bool verbose, std::ostream& out) {
     using namespace std;
 
+    input = this->removeSubstringsFromString(input, string(1, INPUT_LAMBDA_SYMBOL));
 
     queue<QueueElement> Q;
     string initialStack = string(1, StackTransducer::STACK_BASE_SYMBOL);

@@ -1,0 +1,60 @@
+
+======================================== Example ========================================
+Acceptance (F/S): F
+4
+0 a / -> 0 / a
+0 b / -> 1 / b
+1 b / -> 2 / a
+2 b / -> 1 / _
+1
+2
+
+
+// Notes:
+// - This transducer works as a non-stack transducer
+//   and translates any a^n b^2k to a^n b a^k.
+// - In particular, this makes any a^n b^2n string go to a^n b a^n
+
+Example Input: aabbbb
+======================================== Example ========================================
+
+
+
+
+
+
+
+======================================== Example ========================================
+Acceptance (F/S): F
+2
+0 _ / -> 0 / a
+0 a / -> 1 / b
+1
+1
+
+
+// Notes:
+// - This transducer works as a non-stack transducer
+//   and only translates 'a' into {a*b}, infinitely.
+
+Example Input: a
+======================================== Example ========================================
+
+
+
+
+======================================== Example ========================================
+Acceptance (F/S): F
+2
+0 _ / -> 0 / a
+0 _ / -> 1 / b
+1
+1
+
+
+// Notes:
+// - This transducer works as a non-stack transducer
+//   and only translates '_' (the empty string) into {a*b}, infinitely.
+
+Example Input: _
+======================================== Example ========================================
