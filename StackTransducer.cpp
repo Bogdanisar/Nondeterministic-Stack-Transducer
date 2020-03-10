@@ -80,15 +80,6 @@ StackTransducer::StackTransducer(std::istream& in) {
             effect.outputString = StackTransducer::removeSubstringsFromString(effect.outputString, string(1, LAMBDA_SYMBOL));
 
             this->delta[cond].push_back(effect);
-            
-            pv(cond.state);pn; /////
-            pv(cond.inputChar);pn; /////
-            pv(cond.stackChar);pn; /////
-            pv(arrow);pn; /////
-            pv(effect.state);pn; /////
-            pv(effect.stackString);pn; /////
-            pv(effect.outputString);pn; /////
-            pn; /////
         }
     }
 
@@ -99,7 +90,6 @@ StackTransducer::StackTransducer(std::istream& in) {
         while (N--) {
             int state;
             in >> state;
-            pv(state);pn;//////
             this->finalStates.insert(state);
         }
     }
@@ -147,12 +137,8 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
     tc.inputChar = (byLambda) ? LAMBDA_SYMBOL : currId.currentInput[0];
     tc.stackChar = currId.currentStack.back();
 
-    pv(tc);pn; /////
-
     int numNewElements = 0;
     for (TransitionEffect effect : this->delta[tc]) {
-        pv(effect);pn; /////
-
         InstantaneousDescription newId;
 
         newId.state = effect.state;
@@ -165,8 +151,6 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
 
         newId.currentOutput = currId.currentOutput + effect.outputString;
 
-        pv(newId);pn; /////
-
         QueueElement newElem;
         newElem.id = newId;
         if (verbose) {
@@ -177,8 +161,6 @@ int StackTransducer::expandCurrentQueueElement(const QueueElement& currentElemen
         Q.push(newElem);
         numNewElements += 1;
     }
-
-    pn; //////
 
     return numNewElements;
 }
@@ -226,8 +208,6 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
         Q.pop();
         InstantaneousDescription currId = currentElement.id;
 
-        pv(currId);pn; /////
-
         if (this->canAcceptState(currId)) {
             numResults += 1;
             this->writeResult(input, currentElement, numTrasitionsSoFar, verbose, out);
@@ -235,11 +215,6 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
 
         currStatesWithNextNumTransitions += expandCurrentQueueElement(currentElement, Q, false, verbose);
         currStatesWithNextNumTransitions += expandCurrentQueueElement(currentElement, Q, true, verbose);
-
-        pv(numTrasitionsSoFar);pn; /////
-        pv(currStatesWithNumTransitions);pn; /////
-        pv(currStatesWithNextNumTransitions);pn; /////
-        pn; /////
 
         currStatesWithNumTransitions -= 1;
         if (currStatesWithNumTransitions == 0) {
@@ -252,12 +227,6 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
             currStatesWithNumTransitions = currStatesWithNextNumTransitions;
             currStatesWithNextNumTransitions = 0;
         }
-
-        pv(numTrasitionsSoFar);pn; /////
-        pv(currStatesWithNumTransitions);pn; /////
-        pv(currStatesWithNextNumTransitions);pn; /////
-        pn; /////
-        pn; /////
     }
 
     if (numResults == 0) {
