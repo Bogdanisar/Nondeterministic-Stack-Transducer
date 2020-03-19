@@ -24,8 +24,13 @@ In order to run this, use in a terminal:
 
     main.exe
 
-### Concrete StackTransducer examples
-The transducer.in and data.in files have an example of translating any a^n . b^n word to c^(2n) . Just change data.in and run main.exe. 
+The description used to create the transducer is the one in **transducer.in**. 
+
+The input and verbose options used to call `runInput` are read from **data.in**.
+
+The transducer.in and data.in files have an example of translating any a^n . b^n word to c^(2n) . Just change the input in data.in and run main.exe. 
+
 The results can be found in **results.txt**
 
+### Concrete StackTransducer examples
 More transducer.in and data.in examples can be found in the **moreExamples.txt** file.
