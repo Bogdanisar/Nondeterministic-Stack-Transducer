@@ -4,16 +4,20 @@ Acceptance (F/S): *character (F or S)*
 
 *an integer N representing the number of transitions in the tranducer*
 *
-N lines, each representing a transition of the following form:
+    N lines, each representing a transition of the following form:
     *initial state integer* *input char* *stack char* -> *next state integer* *stack string* *output string*
 *
 
-*an integer M representing the number of final states in the transducer*
-*
-M lines, each being a state integer
-*
+* an integer M representing the number of final states in the transducer *
+* M lines, each being a state integer *
+
+
 
 // Notes:
+//
+// - BE CAREFUL WITH THE ORDER OF SYMBOLS IN THE STACK STRING !!!!!
+//   they are inserted into the stack from left to right, so if 'abcd' is inserted, then 'd' will be at the top !!!!!
+//
 // - The final states section is only relevant if the stack acceptance mode is with final states;
 // - '/' is the initial stack character;
 // - '_' is the lambda character for input, stack, output;
