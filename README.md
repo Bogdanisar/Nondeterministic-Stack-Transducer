@@ -12,7 +12,7 @@ The initial state is 0, the lambda symbol is _ and the initial stack character i
 The transducer should be run with the `void StackTransducer::runInput(std::string input, bool verbose, std::ostream& out, int maxResults)` method.
 It will run the input and dump any output (as soon as it is found) into the output stream. The transducer will gradually print results 
 ordered by the number of steps needed to find each result
-If there's an **infinite** amount of results, then it will stop after finding maxResults results (unless this number is 0 or negative).
+If there's an **infinite** amount of results, then it will stop after finding maxResults results (unless this number is 0 or negative). The implicit value is 20.
 
 If **verbose** is enabled, along with any output, the steps taken will also be printed (in the form of **instantaneous descriptions**).
 
