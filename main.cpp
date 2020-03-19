@@ -6,7 +6,8 @@ using namespace std;
 #define pv(x) std::cerr<<#x<<" = "<<(x)<<"; ";std::cerr.flush()
 #define pn std::cerr<<std::endl
 
-// g++ -Wextra -Wall main.cpp .\StackTransducer.cpp -o main.exe; .\main.exe
+// compile:
+// g++ -Wextra -Wall main.cpp StackTransducer.cpp -o main.exe
 
 int main() {
     ifstream in;
@@ -26,10 +27,6 @@ int main() {
     fscanf(fin, "Input: %s\n", inputString);
     fscanf(fin, "Verbose (0/1): %i\n", &verbose);
     fclose(fin);
-
-    pv(inputString);pn;
-    pv(verbose);pn;
-    pn;
 
     ofstream out("results.out");
     transducer.runInput(inputString, verbose, out);
