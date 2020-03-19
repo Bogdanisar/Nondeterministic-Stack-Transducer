@@ -1,6 +1,6 @@
 # Nondeterministic Stack Transducer
 
-This is a C++ implementation of a nondeterministic finite-state transducer ([Wikipedia](https://en.wikipedia.org/wiki/Finite-state_transducer)) that also uses a stack.
+This is a C++ implementation of a nondeterministic finite-state transducer ([Wikipedia](https://en.wikipedia.org/wiki/Finite-state_transducer)) that allows lambda transitions and also uses a stack.
 The Transducer is implemented using an OOP design in StackTransducer.h and StackTransducer.cpp. 
 
 A StackTransducer object is created from an input stream, instead of a file, from which the transducer description is read. 
