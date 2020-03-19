@@ -87,7 +87,9 @@ public:
 
     // runs the Transducer on the input string and prints results to the output stream as soon as they are found
     // if verbose is 'true', then the Transducer will also print all intermediary Instantaneous Descriptions
-    void runInput(std::string input, bool verbose, std::ostream& out);
+    // the Transducer will stop as soon as maxResults results are found. If this number is not positive,
+    // then the transducer will only stop after printing all results or run forever (if there's an infinite number of results).
+    void runInput(std::string input, bool verbose, std::ostream& out, int maxResults = 20);
 
     // removes all appearances of "pattern" from "str"
     static std::string removeSubstringsFromString(std::string str, std::string pattern);

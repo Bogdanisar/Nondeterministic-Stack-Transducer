@@ -51,9 +51,9 @@ StackTransducer::StackTransducer(std::istream& in) {
         getline(in, line);
         char aux;
         sscanf(line.c_str(), "Acceptance (F/S): %c", &aux);
-        
+
         if (aux == 'F') {
-            this->acceptance = Acceptance::FINAL_STATE;           
+            this->acceptance = Acceptance::FINAL_STATE;
         }
         else if (aux == 'S') {
             this->acceptance = Acceptance::EMPTY_STACK;
@@ -67,7 +67,7 @@ StackTransducer::StackTransducer(std::istream& in) {
     {
         int N;
         in >> N;
-        
+
         while (N--) {
             TransitionCondition cond;
             string arrow;
@@ -101,14 +101,14 @@ StackTransducer::StackTransducer(std::istream& in) {
 
 
 bool StackTransducer::canAcceptWithFinalState(const InstantaneousDescription& id) {
-    return 
+    return
         id.currentInput.length() == 0               &&
-        this->acceptance == Acceptance::FINAL_STATE && 
+        this->acceptance == Acceptance::FINAL_STATE &&
         this->finalStates.count(id.state) == 1;
 }
 
 bool StackTransducer::canAcceptWithEmptyStack(const InstantaneousDescription& id) {
-    return 
+    return
         id.currentInput.length() == 0               &&
         this->acceptance == Acceptance::EMPTY_STACK &&
         id.currentStack.length() == 0;
@@ -188,7 +188,7 @@ void StackTransducer::writeResult(std::string input, QueueElement qe, int transi
     out.flush();
 }
 
-void StackTransducer::runInput(std::string input, bool verbose, std::ostream& out) {
+void StackTransducer::runInput(std::string input, bool verbose, std::ostream& out, int maxResults) {
     using namespace std;
 
     input = StackTransducer::removeSubstringsFromString(input, string(1, LAMBDA_SYMBOL));
@@ -209,8 +209,14 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
         InstantaneousDescription currId = currentElement.id;
 
         if (this->canAcceptState(currId)) {
-            numResults += 1;
             this->writeResult(input, currentElement, numTrasitionsSoFar, verbose, out);
+
+            numResults += 1;
+            if (numResults == maxResults) {
+                out << "The transducer stopped after printing " << maxResults << " results\n";
+                out.flush();
+                return;
+            }
         }
 
         currStatesWithNextNumTransitions += expandCurrentQueueElement(currentElement, Q, false, verbose);
@@ -222,7 +228,7 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
 
             // increase the number of steps taken for all states in the current level
             numTrasitionsSoFar += 1;
-            
+
             // and make the number of elements on the current level be equal to the one on the next level
             currStatesWithNumTransitions = currStatesWithNextNumTransitions;
             currStatesWithNextNumTransitions = 0;
@@ -231,6 +237,10 @@ void StackTransducer::runInput(std::string input, bool verbose, std::ostream& ou
 
     if (numResults == 0) {
         out << "The input string is not accepted by the transducer\n";
+        out.flush();
+    }
+    else {
+        out << "The transducer found " << numResults << " results";
         out.flush();
     }
 }
