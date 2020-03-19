@@ -7,6 +7,8 @@ A StackTransducer object is created from an input stream, instead of a file, fro
 This description must give the transducer **acceptance mode**, **transitions** and **final states**.
 (See **transducer.in** and **transducerFormat.txt** for an example of how this description should look).
 
+The initial state is 0, the lambda symbol is _ and the initial stack character is /
+
 The transducer should be run with the `runInput(std::string input, bool verbose, std::ostream& out)` method.
 It will run the input and dump any output (as soon as it is found) into the output stream. 
 If there's an **infinite** amount of results, then the transducer will gradually print results 
